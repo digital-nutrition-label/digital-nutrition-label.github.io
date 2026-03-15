@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Digital Nutrition Label — A European Initiative for Algorithmic Transparency</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --bg-dark: #1A1A18;
+  --text: #1A1A18;
+  --text-inv: #F7F5F0;
+  --accent: #D64000;
+  --accent-light: #FF6B2B;
+  --eu-blue: #003399;
+  --eu-gold: #FFCC00;
+  --muted: #8A8680;
+  --border: #D5D0C8;
+  --card: #FFFFFF;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(247,245,240,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+nav .logo {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+nav .logo span { color: var(--text); }
+nav ul {
+  list-style: none; display: flex; gap: 2rem;
+}
+nav ul a {
+  text-decoration: none; color: var(--muted);
+  font-size: 0.85rem; font-weight: 500;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--text); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 2rem 4rem;
+  max-width: 1200px; margin: 0 auto;
+  position: relative;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--eu-blue);
+  color: var(--eu-gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  width: fit-content;
+}
+.hero-badge::before {
+  content: '★';
+  font-size: 0.65rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-sub {
+  font-size: 1.25rem;
+  font-weight: 300;
+  max-width: 600px;
+  color: var(--muted);
+  margin-bottom: 3rem;
+  line-height: 1.7;
+}
+.hero-cta {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: none; cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--text);
+}
+.btn-outline:hover { background: var(--text); color: var(--bg); }
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: var(--muted); font-size: 0.7rem; font-family: var(--mono);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  animation: bob 2s ease-in-out infinite;
+}
+.scroll-hint .arrow {
+  width: 1px; height: 30px; background: var(--border);
+  position: relative;
+}
+.scroll-hint .arrow::after {
+  content: ''; position: absolute; bottom: 0; left: -3px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid var(--muted);
+}
+@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+/* ─── SECTIONS ─── */
+section { padding: 6rem 2rem; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+
+/* ─── PROBLEM / ANALOGY SECTION ─── */
+.analogy-section { background: var(--bg-dark); color: var(--text-inv); }
+.analogy-section .section-label { color: var(--eu-gold); }
+
+.analogy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.analogy-card {
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.analogy-card:hover { border-color: rgba(255,255,255,0.3); }
+.analogy-card .icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.analogy-card h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.analogy-card .regulation {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--eu-gold);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.analogy-card p {
+  font-size: 0.85rem;
+  color: rgba(247,245,240,0.6);
+  line-height: 1.6;
+}
+.analogy-card.highlight {
+  border-color: var(--accent);
+  background: rgba(214,64,0,0.08);
+}
+.analogy-card.highlight p { color: rgba(247,245,240,0.8); }
+
+/* ─── INFOGRAPHIC: WHAT THE API EXPOSES ─── */
+.api-section { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.api-endpoint-demo {
+  background: var(--bg-dark);
+  border-radius: 4px;
+  padding: 2rem;
+  margin-top: 2.5rem;
+  overflow-x: auto;
+  position: relative;
+}
+.api-endpoint-demo::before {
+  content: 'PROPOSED API SCHEMA';
+  position: absolute; top: 0.75rem; right: 1rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.api-endpoint-demo pre {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: #C5C0B8;
+}
+.api-endpoint-demo .key { color: var(--eu-gold); }
+.api-endpoint-demo .str { color: #8FBF7F; }
+.api-endpoint-demo .num { color: var(--accent-light); }
+.api-endpoint-demo .comment { color: #666; font-style: italic; }
+
+/* ─── DATA VIZ SECTION ─── */
+.dataviz-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+@media(max-width:768px) { .dataviz-row { grid-template-columns: 1fr; } }
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+}
+.stat-card .big-num {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.stat-card .big-num span { font-size: 1.5rem; color: var(--muted); }
+.stat-card h4 {
+  font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem;
+}
+.stat-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.stat-card .source {
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--border);
+  letter-spacing: 0.05em;
+}
+
+/* ─── BAR CHART ─── */
+.bar-chart {
+  margin-top: 3rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+}
+.bar-chart h4 {
+  font-weight: 600; margin-bottom: 0.3rem;
+}
+.bar-chart .chart-subtitle {
+  font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem;
+}
+.bar-row {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+.bar-label {
+  width: 140px; flex-shrink: 0;
+  font-size: 0.8rem; font-weight: 500;
+  text-align: right;
+}
+.bar-track {
+  flex: 1; height: 28px;
+  background: rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 500;
+  transition: width 1.5s cubic-bezier(0.22,1,0.36,1);
+}
+.bar-fill.eu { background: var(--eu-blue); }
+.bar-fill.gold { background: #B8860B; }
+.bar-fill.muted-bar { background: var(--muted); }
+
+/* ─── TIMELINE ─── */
+.timeline-section { background: var(--bg); }
+.timeline {
+  margin-top: 3rem;
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 0.55rem; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -2.55rem; top: 0.35rem;
+  width: 11px; height: 11px;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  border-radius: 50%;
+}
+.timeline-item.active::before {
+  background: var(--accent);
+}
+.timeline-item .t-date {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.timeline-item h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.timeline-item p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 550px;
+  line-height: 1.7;
+}
+
+/* ─── ACADEMIC REFERENCES ─── */
+.refs-section { background: var(--card); border-top: 1px solid var(--border); }
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.ref-card {
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.ref-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ref-card .ref-type {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.ref-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+.ref-card .ref-authors {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.ref-card .ref-venue {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+}
+.ref-card a {
+  display: inline-block; margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--eu-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+.ref-card a:hover { text-decoration: underline; }
+
+/* ─── COALITION / PARTNERS ─── */
+.coalition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.coalition-card {
+  border: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+}
+.coalition-card .c-role {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.coalition-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.coalition-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.coalition-card.open {
+  border-style: dashed;
+  border-color: var(--accent);
+  background: rgba(214,64,0,0.03);
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  background: var(--bg-dark);
+  color: var(--text-inv);
+  text-align: center;
+  padding: 8rem 2rem;
+}
+.cta-section .section-title {
+  margin: 0 auto 1rem;
+}
+.cta-section p {
+  color: rgba(247,245,240,0.6);
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+  font-size: 1rem;
+}
+.cta-section .btn-primary {
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+  flex-wrap: wrap; gap: 1rem;
+}
+footer .f-left {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+footer .f-right {
+  display: flex; gap: 1.5rem;
+}
+footer .f-right a {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+footer .f-right a:hover { color: var(--text); }
+
+/* ─── ANIMATIONS ─── */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width: 768px) {
+  nav ul { display: none; }
+  .hero { padding: 7rem 1.5rem 4rem; }
+  section { padding: 4rem 1.5rem; }
+  .analogy-grid { grid-template-columns: 1fr 1fr; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .bar-label { width: 100px; font-size: 0.7rem; }
+}
+@media(max-width: 480px) {
+  .analogy-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── NUTRITION LABEL VISUAL ─── */
+.label-visual {
+  margin-top: 3rem;
+  border: 3px solid var(--text);
+  max-width: 420px;
+  padding: 1.5rem;
+  background: var(--card);
+  position: relative;
+}
+.label-visual h3 {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  border-bottom: 8px solid var(--text);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+.label-visual .label-sub {
+  font-size: 0.8rem;
+  border-bottom: 3px solid var(--text);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.label-row {
+  display: flex; justify-content: space-between;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.label-row.bold { font-weight: 600; border-bottom-width: 3px; border-color: var(--text); }
+.label-row .indent { padding-left: 1.5rem; }
+.label-row .val { font-family: var(--mono); font-weight: 600; }
+.label-row .val.warn { color: var(--accent); }
+.label-footer {
+  margin-top: 0.75rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* pill tag */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span>Digital</span> Nutrition Label</div>
+  <ul>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#proposal">The Proposal</a></li>
+    <li><a href="#evidence">Evidence</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">European Policy Initiative</div>
+  <h1>What if your screen time had a <em>nutrition label?</em></h1>
+  <p class="hero-sub">A proposal for mandatory, standardized, user-facing behavioral transparency APIs for every algorithmic service operating in the EU.</p>
+  <div class="hero-cta">
+    <a href="#proposal" class="btn btn-primary">Read the proposal ↓</a>
+    <a href="#join" class="btn btn-outline">Join the initiative</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="arrow"></div>
+    Scroll to explore
+  </div>
+</header>
+
+<!-- PROBLEM: THE ANALOGY -->
+<section class="analogy-section" id="problem">
+  <div class="container">
+    <div class="section-label fade-in">01 — The Problem</div>
+    <h2 class="section-title fade-in" style="color: var(--text-inv);">We regulate every product that enters your body. <br>Except the one that enters your mind.</h2>
+    <p class="fade-in" style="color: rgba(247,245,240,0.6); max-width: 600px; margin-bottom: 1rem; line-height: 1.7;">
+      The EU mandates transparency for food, vehicles, cigarettes, and cosmetics. But algorithmic services that shape the information diet of 450 million Europeans — including children — operate with no comparable disclosure to users.
+    </p>
+
+    <div class="analogy-grid">
+      <div class="analogy-card fade-in">
+        <span class="icon">🍎</span>
+        <span class="regulation">Regulation (EU) 1169/2011</span>
+        <h3>Food</h3>
+        <p>Every calorie, every milligram of sodium, every allergen — printed on the packaging by law. Down to the microgram.</p>
+      </div>
+      <div class="analogy-card fade-in">
+        <span class="icon">🚗</span>
+        <span class="regulation">Regulation (EU) 2019/2144</span>
+        <h3>Vehicles</h3>
+        <p>Crash test ratings, emission data, material safety standards. You cannot sell a car in the EU that doesn't meet hundreds of transparent specifications.</p>
+      </div>
+      <div class="analogy-card fade-in">
+        <span class="icon">🚬</span>
+        <span class="regulation">Directive 2014/40/EU</span>
+        <h3>Tobacco</h3>
+        <p>Milligrams of tar, nicotine, and carbon monoxide. Health warnings covering 65% of the package. Every side effect, printed on the box.</p>
+      </div>
+      <div class="analogy-card fade-in">
+        <span class="icon">🧴</span>
+        <span class="regulation">Regulation (EC) 1223/2009</span>
+        <h3>Cosmetics</h3>
+        <p>Full ingredient listing in descending order. Chemical composition scrutinized. Safety assessments mandatory before any product reaches a shelf.</p>
+      </div>
+      <div class="analogy-card highlight fade-in">
+        <span class="icon">📱</span>
+        <span class="regulation">??? — No equivalent</span>
+        <h3>Algorithmic Services</h3>
+        <p>A service that shapes your beliefs, purchasing decisions, political views, and your children's mental health. No user-facing disclosure of what it does to you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSAL: THE API STANDARD -->
+<section class="api-section" id="proposal">
+  <div class="container">
+    <div class="section-label fade-in">02 — The Proposal</div>
+    <h2 class="section-title fade-in">Don't ban anything.<br>Just turn the lights on.</h2>
+    <p class="fade-in" style="color: var(--muted); max-width: 600px; line-height: 1.8;">
+      Any service operating in the EU that uses algorithmic content recommendation must expose — per user, via a standardized REST API — what content was served, what was sponsored, what behavioral signals were used for targeting, and what revenue was generated from that user's activity.
+    </p>
+
+    <!-- Nutrition Label Visual -->
+    <div class="label-visual fade-in">
+      <h3>Digital Nutrition Facts</h3>
+      <div class="label-sub">Weekly Report — User #EU-28491 — Week of 10 Mar 2026</div>
+      <div class="label-row bold">
+        <span>Total Screen Time</span>
+        <span class="val">14h 22min</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Algorithmic Feed</span>
+        <span class="val">9h 48min</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Self-Directed Browsing</span>
+        <span class="val">4h 34min</span>
+      </div>
+      <div class="label-row bold">
+        <span>Advertising Revenue Generated</span>
+        <span class="val">€1.84</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Sponsored Content Served</span>
+        <span class="val warn">247 items</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Purchase Decisions Influenced</span>
+        <span class="val warn">4</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Cheaper Alternatives Available</span>
+        <span class="val warn">3 of 4</span>
+      </div>
+      <div class="label-row bold">
+        <span>Behavioral Signals Collected</span>
+        <span class="val">1,842</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Scroll Speed / Dwell Time</span>
+        <span class="val">614</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Engagement Predictions Used</span>
+        <span class="val">389</span>
+      </div>
+      <div class="label-row">
+        <span class="indent">Preference Drift Events</span>
+        <span class="val warn">12</span>
+      </div>
+      <div class="label-row bold">
+        <span>Content Concentration Index</span>
+        <span class="val warn">0.73 / 1.0</span>
+      </div>
+      <div class="label-footer">
+        * Preference Drift: measurable shift in your content engagement patterns not initiated by explicit user action.<br>
+        * Concentration Index: 1.0 = maximum filter bubble. Values above 0.6 indicate significant algorithmic narrowing.
+      </div>
+    </div>
+
+    <!-- API Schema -->
+    <div class="api-endpoint-demo fade-in">
+      <pre>
+<span class="comment">// GET /api/v1/transparency/{user_id}/weekly</span>
+
+{
+  <span class="key">"schema"</span>: <span class="str">"eu-digital-nutrition-label/v1.0"</span>,
+  <span class="key">"period"</span>: <span class="str">"2026-W11"</span>,
+  <span class="key">"attention"</span>: {
+    <span class="key">"total_minutes"</span>:  <span class="num">862</span>,
+    <span class="key">"algorithmic_feed"</span>: <span class="num">588</span>,
+    <span class="key">"self_directed"</span>:  <span class="num">274</span>
+  },
+  <span class="key">"monetization"</span>: {
+    <span class="key">"ad_revenue_eur"</span>:       <span class="num">1.84</span>,
+    <span class="key">"sponsored_items"</span>:      <span class="num">247</span>,
+    <span class="key">"purchases_influenced"</span>: <span class="num">4</span>,
+    <span class="key">"cheaper_alt_available"</span>: <span class="num">3</span>
+  },
+  <span class="key">"behavioral_signals"</span>: {
+    <span class="key">"total_collected"</span>:      <span class="num">1842</span>,
+    <span class="key">"preference_drift_events"</span>: <span class="num">12</span>,
+    <span class="key">"concentration_index"</span>:  <span class="num">0.73</span>
+  }
+}
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- EVIDENCE / DATA -->
+<section id="evidence">
+  <div class="container">
+    <div class="section-label fade-in">03 — Evidence</div>
+    <h2 class="section-title fade-in">The numbers behind the opacity</h2>
+
+    <div class="dataviz-row">
+      <div class="stat-card fade-in">
+        <div class="big-num">€97<span>bn</span></div>
+        <h4>EU Digital Advertising Market (2025)</h4>
+        <p>Revenue extracted from European attention, with no per-user transparency about how that value was generated.</p>
+        <div class="source">Source: IAB Europe / Statista</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="big-num">68<span>%</span></div>
+        <h4>EU Citizens Concerned About Algorithmic Influence</h4>
+        <p>Of Europeans surveyed say they are worried about how online platforms use algorithms to influence what they see.</p>
+        <div class="source">Source: Eurobarometer 2024</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="big-num">0</div>
+        <h4>User-Facing Transparency APIs Required by Law</h4>
+        <p>The DSA requires platform disclosure to regulators and researchers. Not to you. Zero mandatory per-user behavioral data endpoints exist.</p>
+        <div class="source">Source: DSA Art. 40 Analysis</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="big-num">93<span>%</span></div>
+        <h4>Of EU Minors Use Social Media</h4>
+        <p>Children and adolescents are the most algorithmically influenced demographic, with the least capacity to understand the manipulation.</p>
+        <div class="source">Source: EU Kids Online 2024</div>
+      </div>
+    </div>
+
+    <div class="bar-chart fade-in">
+      <h4>EU Consumer Protection Transparency — By Sector</h4>
+      <p class="chart-subtitle">Mandatory per-unit / per-user disclosure requirements (illustrative comparison)</p>
+
+      <div class="bar-row">
+        <span class="bar-label">Food & Beverages</span>
+        <div class="bar-track"><div class="bar-fill eu" style="width:95%">95%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Pharmaceuticals</span>
+        <div class="bar-track"><div class="bar-fill eu" style="width:98%">98%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Motor Vehicles</span>
+        <div class="bar-track"><div class="bar-fill eu" style="width:92%">92%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Financial Services</span>
+        <div class="bar-track"><div class="bar-fill gold" style="width:85%">85%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Cosmetics</span>
+        <div class="bar-track"><div class="bar-fill gold" style="width:80%">80%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Tobacco</span>
+        <div class="bar-track"><div class="bar-fill gold" style="width:88%">88%</div></div>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Algorithmic Services</span>
+        <div class="bar-track"><div class="bar-fill" style="width:8%">8%</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLICY LANDSCAPE -->
+<section style="background: var(--card); border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label fade-in">04 — Policy Landscape</div>
+    <h2 class="section-title fade-in">Where this fits in EU law</h2>
+    <p class="fade-in" style="color: var(--muted); max-width: 600px; line-height: 1.8; margin-bottom: 2rem;">
+      The Digital Nutrition Label is not a new regulatory framework. It is the logical next step in an existing trajectory — extending the principle of "tell the regulator" to "tell the user."
+    </p>
+
+    <div class="analogy-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
+        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
+        <h3 style="color: var(--text);">GDPR (2018)</h3>
+        <p style="color: var(--muted);">Established the right to data access and portability. But doesn't require platforms to show you what their algorithms <em>do</em> with your data.</p>
+      </div>
+      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
+        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
+        <h3 style="color: var(--text);">DSA (2024)</h3>
+        <p style="color: var(--muted);">Requires algorithmic transparency to regulators and vetted researchers. Transparency Database tracks content moderation. But no per-user behavioral API.</p>
+      </div>
+      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
+        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
+        <h3 style="color: var(--text);">AI Act (2024)</h3>
+        <p style="color: var(--muted);">Risk-based regulation of AI systems. Transparency obligations for high-risk systems. But social media recommenders are not classified as high-risk.</p>
+      </div>
+      <div class="analogy-card fade-in" style="border-color: var(--accent); color: var(--text); background: rgba(214,64,0,0.04);">
+        <span class="regulation" style="color: var(--accent);">Expected Q4 2026</span>
+        <h3 style="color: var(--text);">Digital Fairness Act</h3>
+        <p style="color: var(--muted);">Will address dark patterns, addictive design, and unfair personalization. The perfect legislative vehicle for a mandatory behavioral transparency standard.</p>
+      </div>
+      <div class="analogy-card fade-in" style="border-color: var(--accent); border-style: dashed; color: var(--text); background: rgba(214,64,0,0.06);">
+        <span class="regulation" style="color: var(--accent);">Proposed</span>
+        <h3 style="color: var(--accent);">Digital Nutrition Label</h3>
+        <p style="color: var(--muted);">A standardized, mandatory, per-user behavioral transparency API. The missing piece that connects regulation to citizen empowerment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="timeline-section" id="roadmap">
+  <div class="container">
+    <div class="section-label fade-in">05 — Roadmap</div>
+    <h2 class="section-title fade-in">How we get there</h2>
+
+    <div class="timeline">
+      <div class="timeline-item active fade-in">
+        <div class="t-date">Q1 2026 — Now</div>
+        <h3>Initiative Launch & Coalition Building</h3>
+        <p>Publish the concept. Connect with academic partners (HCI labs, algorithmic auditing researchers), digital rights NGOs (EDRi, AlgorithmWatch), and consumer protection bodies (BEUC). Build the founding consortium.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="t-date">Q2 2026</div>
+        <h3>Policy Paper & Standard Draft</h3>
+        <p>Produce a formal policy brief proposing the API schema standard. Present at relevant EP committee hearings. Target the Digital Fairness Act preparation process.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="t-date">Q3 2026</div>
+        <h3>EU Funding Application</h3>
+        <p>Submit consortium proposal under Horizon Europe or Digital Europe Programme. Parallel applications to national digital rights funding (e.g., Luminate, Adessium, Schöpflin Foundation).</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="t-date">Q4 2026 – Q2 2027</div>
+        <h3>Prototype & Pilot</h3>
+        <p>Develop the open reference implementation. Pilot with willing platforms or browser-extension based data collection. Produce first "Digital Nutrition Reports" for real users.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="t-date">2027–2028</div>
+        <h3>Standardization & Adoption</h3>
+        <p>Work with W3C / ETSI / CEN-CENELEC on formal standardization. Push for inclusion in DFA or successor legislation. Build the open-source ecosystem around the standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMIC REFERENCES -->
+<section class="refs-section">
+  <div class="container">
+    <div class="section-label fade-in">06 — Academic Foundation</div>
+    <h2 class="section-title fade-in">Built on research, not ideology</h2>
+
+    <div class="ref-grid">
+      <div class="ref-card fade-in">
+        <div class="ref-type">ACM CHI 2022</div>
+        <h4>End-User Audits: A System Empowering Communities to Lead Large-Scale Investigations of Harmful Algorithmic Behavior</h4>
+        <div class="ref-authors">Lam, M.S. et al. — Stanford University</div>
+        <div class="ref-venue">Proc. ACM Hum.-Comput. Interact., Vol. 6, CSCW2</div>
+        <a href="https://dl.acm.org/doi/10.1145/3555625" target="_blank">Read paper →</a>
+      </div>
+      <div class="ref-card fade-in">
+        <div class="ref-type">ACM CHI 2022</div>
+        <h4>Toward User-Driven Algorithm Auditing: Investigating Users' Strategies for Uncovering Harmful Algorithmic Behavior</h4>
+        <div class="ref-authors">DeVos, A. et al.</div>
+        <div class="ref-venue">Proc. CHI Conference on Human Factors in Computing Systems</div>
+        <a href="https://dl.acm.org/doi/abs/10.1145/3491102.3517441" target="_blank">Read paper →</a>
+      </div>
+      <div class="ref-card fade-in">
+        <div class="ref-type">ACM CSCW 2023</div>
+        <h4>360° Sociotechnical Audits: Broadening the Algorithm Auditing Framework</h4>
+        <div class="ref-authors">Kalicki, C.H., Lam, M.S. et al. — Stanford & Georgia Tech</div>
+        <div class="ref-venue">Proc. ACM Hum.-Comput. Interact.</div>
+        <a href="https://hci.stanford.edu/publications/2023/Lam_STA_CSCW23.pdf" target="_blank">Read paper →</a>
+      </div>
+      <div class="ref-card fade-in">
+        <div class="ref-type">European Audiovisual Observatory 2023</div>
+        <h4>Algorithmic Transparency and Accountability of Digital Services</h4>
+        <div class="ref-authors">Cole, M.D. — Institute of European Media Law</div>
+        <div class="ref-venue">IRIS Special Report — Council of Europe</div>
+        <a href="https://rm.coe.int/iris-special-2023-02en/1680aeda48" target="_blank">Read report →</a>
+      </div>
+      <div class="ref-card fade-in">
+        <div class="ref-type">Oxford Academic 2024</div>
+        <h4>Rescuing Transparency in the Digital Economy: In Search of a Common Notion in EU Consumer and Data Protection Law</h4>
+        <div class="ref-authors">Yearbook of European Law</div>
+        <div class="ref-venue">Oxford University Press</div>
+        <a href="https://academic.oup.com/yel/article/doi/10.1093/yel/yead005/7284425" target="_blank">Read paper →</a>
+      </div>
+      <div class="ref-card fade-in">
+        <div class="ref-type">Northeastern University — Ongoing</div>
+        <h4>Auditing Algorithms: Research Methods for Detecting Discrimination on Internet Platforms</h4>
+        <div class="ref-authors">Sandvig, C., Wilson, C. et al.</div>
+        <div class="ref-venue">Personalization Research Group</div>
+        <a href="https://personalization.ccs.neu.edu/" target="_blank">Visit lab →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY EU BODIES -->
+<section>
+  <div class="container">
+    <div class="section-label fade-in">07 — Coalition</div>
+    <h2 class="section-title fade-in">Who needs to be in the room</h2>
+
+    <div class="coalition-grid">
+      <div class="coalition-card fade-in">
+        <div class="c-role">Institutional Partner</div>
+        <h4>ECAT</h4>
+        <p>European Centre for Algorithmic Transparency. The Commission's own scientific body for DSA enforcement. Natural ally for extending transparency to users.</p>
+      </div>
+      <div class="coalition-card fade-in">
+        <div class="c-role">Digital Rights</div>
+        <h4>EDRi / AlgorithmWatch</h4>
+        <p>European Digital Rights network. Already pushing for the Digital Fairness Act to address commercial surveillance. Policy advocacy infrastructure.</p>
+      </div>
+      <div class="coalition-card fade-in">
+        <div class="c-role">Consumer Protection</div>
+        <h4>BEUC</h4>
+        <p>The European Consumer Organisation. Represents 46 consumer organizations across 32 countries. Provides the political weight and lobbying infrastructure.</p>
+      </div>
+      <div class="coalition-card fade-in">
+        <div class="c-role">Academic Research</div>
+        <h4>University Partners</h4>
+        <p>Stanford HCI Lab, Northeastern Auditing Algorithms, TU Berlin, University of Amsterdam. Provide the methodological rigor and evidence base.</p>
+      </div>
+      <div class="coalition-card fade-in">
+        <div class="c-role">Standards Body</div>
+        <h4>W3C / CEN-CENELEC</h4>
+        <p>For formal API schema standardization. The "calorie" equivalent for digital attention needs an agreed-upon measurement framework.</p>
+      </div>
+      <div class="coalition-card open fade-in">
+        <div class="c-role">You?</div>
+        <h4>Open Seats</h4>
+        <p>Civic tech developers, MEPs, child protection organizations, educators, data scientists, concerned parents. This initiative needs diverse voices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="join">
+  <div class="section-label" style="color: var(--eu-gold);">Join the Initiative</div>
+  <h2 class="section-title" style="color: var(--text-inv);">Don't fight the platforms.<br>Just turn the lights on.</h2>
+  <p>We're building a coalition to make algorithmic behavioral transparency a fundamental right for every European citizen.</p>
+  <a href="mailto:hello@digitalnutritionlabel.eu" class="btn btn-primary">Get Involved →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-left">
+    © 2026 Digital Nutrition Label Initiative<br>
+    A public interest technology project
+  </div>
+  <div class="f-right">
+    <a href="#">Concept Paper (PDF)</a>
+    <a href="#">GitHub</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<!-- SCROLL ANIMATION -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
