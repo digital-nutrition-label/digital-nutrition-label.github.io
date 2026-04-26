@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Digital Nutrition Label — A European Initiative for Algorithmic Transparency</title>
+<title>Digital Nutrition Label — Algorithmic Transparency for Europe</title>
+<meta name="description" content="A proposal for mandatory, standardized, user-facing behavioral transparency APIs for every algorithmic service operating in the EU.">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -24,7 +25,6 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -34,6 +34,48 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ─── LANGUAGE SWITCHER ─── */
+[data-lang] { display: none; }
+[data-lang="en"] { display: contents; }
+body.lang-hu [data-lang="en"] { display: none; }
+body.lang-hu [data-lang="hu"] { display: contents; }
+
+/* For block-level elements that need proper display */
+div[data-lang], p[data-lang], h1[data-lang], h2[data-lang], span[data-lang], a[data-lang] { display: none; }
+div[data-lang="en"], p[data-lang="en"], h1[data-lang="en"], h2[data-lang="en"], span[data-lang="en"], a[data-lang="en"] { display: block; }
+span[data-lang="en"], a[data-lang="en"] { display: inline; }
+body.lang-hu div[data-lang="en"], body.lang-hu p[data-lang="en"], body.lang-hu h1[data-lang="en"], body.lang-hu h2[data-lang="en"], body.lang-hu span[data-lang="en"], body.lang-hu a[data-lang="en"] { display: none; }
+body.lang-hu div[data-lang="hu"], body.lang-hu p[data-lang="hu"], body.lang-hu h1[data-lang="hu"], body.lang-hu h2[data-lang="hu"], body.lang-hu span[data-lang="hu"], body.lang-hu a[data-lang="hu"] { display: block; }
+body.lang-hu span[data-lang="hu"], body.lang-hu a[data-lang="hu"] { display: inline; }
+
+/* Flex children need inline-flex */
+.hero-cta a[data-lang="en"] { display: inline-flex; }
+body.lang-hu .hero-cta a[data-lang="en"] { display: none; }
+body.lang-hu .hero-cta a[data-lang="hu"] { display: inline-flex; }
+
+.lang-switch {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  margin-left: 1.5rem;
+}
+.lang-switch button {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0.2rem 0.4rem;
+  transition: color 0.2s;
+}
+.lang-switch button:hover { color: var(--text); }
+.lang-switch button.active {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lang-switch .sep { color: var(--border); }
 
 /* ─── NAV ─── */
 nav {
@@ -53,6 +95,9 @@ nav .logo {
   color: var(--accent);
 }
 nav .logo span { color: var(--text); }
+nav .nav-right {
+  display: flex; align-items: center;
+}
 nav ul {
   list-style: none; display: flex; gap: 2rem;
 }
@@ -85,10 +130,7 @@ nav ul a:hover { color: var(--text); }
   margin-bottom: 2rem;
   width: fit-content;
 }
-.hero-badge::before {
-  content: '★';
-  font-size: 0.65rem;
-}
+.hero-badge::before { content: '★'; font-size: 0.65rem; }
 .hero h1 {
   font-family: var(--serif);
   font-size: clamp(3rem, 7vw, 5.5rem);
@@ -97,10 +139,7 @@ nav ul a:hover { color: var(--text); }
   max-width: 900px;
   margin-bottom: 1.5rem;
 }
-.hero h1 em {
-  font-style: italic;
-  color: var(--accent);
-}
+.hero h1 em { font-style: italic; color: var(--accent); }
 .hero-sub {
   font-size: 1.25rem;
   font-weight: 300;
@@ -123,18 +162,15 @@ nav ul a:hover { color: var(--text); }
   transition: all 0.25s;
 }
 .btn-primary {
-  background: var(--accent);
-  color: white;
+  background: var(--accent); color: white;
 }
 .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
 .btn-outline {
-  background: transparent;
-  color: var(--text);
+  background: transparent; color: var(--text);
   border: 1.5px solid var(--text);
 }
 .btn-outline:hover { background: var(--text); color: var(--bg); }
 
-/* ─── SCROLL INDICATOR ─── */
 .scroll-hint {
   position: absolute;
   bottom: 2rem; left: 50%; transform: translateX(-50%);
@@ -176,7 +212,7 @@ section { padding: 6rem 2rem; }
   max-width: 700px;
 }
 
-/* ─── PROBLEM / ANALOGY SECTION ─── */
+/* ─── ANALOGY SECTION ─── */
 .analogy-section { background: var(--bg-dark); color: var(--text-inv); }
 .analogy-section .section-label { color: var(--eu-gold); }
 
@@ -189,16 +225,10 @@ section { padding: 6rem 2rem; }
 .analogy-card {
   border: 1px solid rgba(255,255,255,0.12);
   padding: 2rem 1.5rem;
-  position: relative;
-  overflow: hidden;
   transition: border-color 0.3s;
 }
 .analogy-card:hover { border-color: rgba(255,255,255,0.3); }
-.analogy-card .icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  display: block;
-}
+.analogy-card .icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
 .analogy-card h3 {
   font-family: var(--sans);
   font-weight: 600;
@@ -224,7 +254,7 @@ section { padding: 6rem 2rem; }
 }
 .analogy-card.highlight p { color: rgba(247,245,240,0.8); }
 
-/* ─── INFOGRAPHIC: WHAT THE API EXPOSES ─── */
+/* ─── API SECTION ─── */
 .api-section { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
 .api-endpoint-demo {
@@ -254,278 +284,13 @@ section { padding: 6rem 2rem; }
 .api-endpoint-demo .num { color: var(--accent-light); }
 .api-endpoint-demo .comment { color: #666; font-style: italic; }
 
-/* ─── DATA VIZ SECTION ─── */
-.dataviz-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-@media(max-width:768px) { .dataviz-row { grid-template-columns: 1fr; } }
-
-.stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 2.5rem 2rem;
-}
-.stat-card .big-num {
-  font-family: var(--serif);
-  font-size: 3.5rem;
-  color: var(--accent);
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-.stat-card .big-num span { font-size: 1.5rem; color: var(--muted); }
-.stat-card h4 {
-  font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem;
-}
-.stat-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-.stat-card .source {
-  margin-top: 1rem;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--border);
-  letter-spacing: 0.05em;
-}
-
-/* ─── BAR CHART ─── */
-.bar-chart {
-  margin-top: 3rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 2.5rem 2rem;
-}
-.bar-chart h4 {
-  font-weight: 600; margin-bottom: 0.3rem;
-}
-.bar-chart .chart-subtitle {
-  font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem;
-}
-.bar-row {
-  display: flex; align-items: center; gap: 1rem;
-  margin-bottom: 0.8rem;
-}
-.bar-label {
-  width: 140px; flex-shrink: 0;
-  font-size: 0.8rem; font-weight: 500;
-  text-align: right;
-}
-.bar-track {
-  flex: 1; height: 28px;
-  background: rgba(0,0,0,0.04);
-  position: relative;
-  overflow: hidden;
-}
-.bar-fill {
-  height: 100%;
-  background: var(--accent);
-  display: flex; align-items: center; justify-content: flex-end;
-  padding-right: 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: white;
-  font-weight: 500;
-  transition: width 1.5s cubic-bezier(0.22,1,0.36,1);
-}
-.bar-fill.eu { background: var(--eu-blue); }
-.bar-fill.gold { background: #B8860B; }
-.bar-fill.muted-bar { background: var(--muted); }
-
-/* ─── TIMELINE ─── */
-.timeline-section { background: var(--bg); }
-.timeline {
-  margin-top: 3rem;
-  position: relative;
-  padding-left: 3rem;
-}
-.timeline::before {
-  content: '';
-  position: absolute; left: 0.55rem; top: 0; bottom: 0;
-  width: 1px; background: var(--border);
-}
-.timeline-item {
-  position: relative;
-  padding-bottom: 3rem;
-}
-.timeline-item::before {
-  content: '';
-  position: absolute; left: -2.55rem; top: 0.35rem;
-  width: 11px; height: 11px;
-  border: 2px solid var(--accent);
-  background: var(--bg);
-  border-radius: 50%;
-}
-.timeline-item.active::before {
-  background: var(--accent);
-}
-.timeline-item .t-date {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.3rem;
-}
-.timeline-item h3 {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-.timeline-item p {
-  font-size: 0.9rem;
-  color: var(--muted);
-  max-width: 550px;
-  line-height: 1.7;
-}
-
-/* ─── ACADEMIC REFERENCES ─── */
-.refs-section { background: var(--card); border-top: 1px solid var(--border); }
-.ref-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-.ref-card {
-  border: 1px solid var(--border);
-  padding: 1.5rem;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.ref-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-.ref-card .ref-type {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.75rem;
-}
-.ref-card h4 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  line-height: 1.4;
-}
-.ref-card .ref-authors {
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
-.ref-card .ref-venue {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--accent);
-}
-.ref-card a {
-  display: inline-block; margin-top: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--eu-blue);
-  text-decoration: none;
-  font-weight: 500;
-}
-.ref-card a:hover { text-decoration: underline; }
-
-/* ─── COALITION / PARTNERS ─── */
-.coalition-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-.coalition-card {
-  border: 1px solid var(--border);
-  padding: 2rem 1.5rem;
-}
-.coalition-card .c-role {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.75rem;
-}
-.coalition-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-.coalition-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-.coalition-card.open {
-  border-style: dashed;
-  border-color: var(--accent);
-  background: rgba(214,64,0,0.03);
-}
-
-/* ─── CTA SECTION ─── */
-.cta-section {
-  background: var(--bg-dark);
-  color: var(--text-inv);
-  text-align: center;
-  padding: 8rem 2rem;
-}
-.cta-section .section-title {
-  margin: 0 auto 1rem;
-}
-.cta-section p {
-  color: rgba(247,245,240,0.6);
-  max-width: 500px;
-  margin: 0 auto 2.5rem;
-  font-size: 1rem;
-}
-.cta-section .btn-primary {
-  font-size: 1rem;
-  padding: 1rem 2.5rem;
-}
-
-/* ─── FOOTER ─── */
-footer {
-  padding: 3rem 2rem;
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-  max-width: 1200px; margin: 0 auto;
-  flex-wrap: wrap; gap: 1rem;
-}
-footer .f-left {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-footer .f-right {
-  display: flex; gap: 1.5rem;
-}
-footer .f-right a {
-  font-size: 0.8rem;
-  color: var(--muted);
-  text-decoration: none;
-}
-footer .f-right a:hover { color: var(--text); }
-
-/* ─── ANIMATIONS ─── */
-.fade-in {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.fade-in.visible {
-  opacity: 1; transform: translateY(0);
-}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width: 768px) {
-  nav ul { display: none; }
-  .hero { padding: 7rem 1.5rem 4rem; }
-  section { padding: 4rem 1.5rem; }
-  .analogy-grid { grid-template-columns: 1fr 1fr; }
-  .ref-grid { grid-template-columns: 1fr; }
-  .bar-label { width: 100px; font-size: 0.7rem; }
-}
-@media(max-width: 480px) {
-  .analogy-grid { grid-template-columns: 1fr; }
-}
-
-/* ─── NUTRITION LABEL VISUAL ─── */
+/* ─── NUTRITION LABEL ─── */
 .label-visual {
   margin-top: 3rem;
   border: 3px solid var(--text);
   max-width: 420px;
   padding: 1.5rem;
   background: var(--card);
-  position: relative;
 }
 .label-visual h3 {
   font-family: var(--serif);
@@ -557,18 +322,171 @@ footer .f-right a:hover { color: var(--text); }
   line-height: 1.5;
 }
 
-/* pill tag */
-.pill {
-  display: inline-block;
+/* ─── TIMELINE ─── */
+.timeline {
+  margin-top: 3rem;
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 0.55rem; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -2.55rem; top: 0.35rem;
+  width: 11px; height: 11px;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  border-radius: 50%;
+}
+.timeline-item.active::before { background: var(--accent); }
+.timeline-item .t-date {
   font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
-  border: 1px solid currentColor;
-  border-radius: 2px;
-  margin-right: 0.3rem;
+  color: var(--accent);
   margin-bottom: 0.3rem;
+}
+.timeline-item h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.timeline-item p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 550px;
+  line-height: 1.7;
+}
+
+/* ─── REFERENCES ─── */
+.refs-section { background: var(--card); border-top: 1px solid var(--border); }
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.ref-card {
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.ref-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ref-card .ref-type {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.75rem;
+}
+.ref-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; line-height: 1.4; }
+.ref-card .ref-authors { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+.ref-card .ref-venue { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); }
+.ref-card a {
+  display: inline-block; margin-top: 0.75rem;
+  font-size: 0.8rem; color: var(--eu-blue);
+  text-decoration: none; font-weight: 500;
+}
+.ref-card a:hover { text-decoration: underline; }
+
+/* ─── COALITION ─── */
+.coalition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.coalition-card {
+  border: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+}
+.coalition-card .c-role {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 0.75rem;
+}
+.coalition-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.coalition-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.coalition-card.open {
+  border-style: dashed; border-color: var(--accent);
+  background: rgba(214,64,0,0.03);
+}
+
+/* ─── POLICY LANDSCAPE ─── */
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.policy-card {
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.policy-card .p-status {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.policy-card .p-status.active { color: var(--eu-blue); }
+.policy-card .p-status.upcoming { color: var(--accent); }
+.policy-card h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.policy-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.policy-card.proposed {
+  border-color: var(--accent); border-style: dashed;
+  background: rgba(214,64,0,0.04);
+}
+.policy-card.proposed h4 { color: var(--accent); }
+
+/* ─── CTA ─── */
+.cta-section {
+  background: var(--bg-dark); color: var(--text-inv);
+  text-align: center; padding: 8rem 2rem;
+}
+.cta-section .section-title { margin: 0 auto 1rem; }
+.cta-section p {
+  color: rgba(247,245,240,0.6);
+  max-width: 500px; margin: 0 auto 2.5rem; font-size: 1rem;
+}
+.cta-section .btn-primary { font-size: 1rem; padding: 1rem 2.5rem; }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+  flex-wrap: wrap; gap: 1rem;
+}
+footer .f-left { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+footer .f-right { display: flex; gap: 1.5rem; }
+footer .f-right a { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+footer .f-right a:hover { color: var(--text); }
+
+/* ─── ANIMATIONS ─── */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width: 768px) {
+  nav ul { display: none; }
+  .hero { padding: 7rem 1.5rem 4rem; }
+  section { padding: 4rem 1.5rem; }
+  .analogy-grid { grid-template-columns: 1fr 1fr; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .policy-grid { grid-template-columns: 1fr; }
+}
+@media(max-width: 480px) {
+  .analogy-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -577,142 +495,227 @@ footer .f-right a:hover { color: var(--text); }
 <!-- NAV -->
 <nav>
   <div class="logo"><span>Digital</span> Nutrition Label</div>
-  <ul>
-    <li><a href="#problem">The Problem</a></li>
-    <li><a href="#proposal">The Proposal</a></li>
-    <li><a href="#evidence">Evidence</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#join">Join</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul>
+      <li>
+        <a href="#problem" data-lang="en">The Problem</a>
+        <a href="#problem" data-lang="hu">A probléma</a>
+      </li>
+      <li>
+        <a href="#proposal" data-lang="en">The Proposal</a>
+        <a href="#proposal" data-lang="hu">A javaslat</a>
+      </li>
+      <li>
+        <a href="#landscape" data-lang="en">Policy</a>
+        <a href="#landscape" data-lang="hu">Szabályozás</a>
+      </li>
+      <li>
+        <a href="#roadmap" data-lang="en">Roadmap</a>
+        <a href="#roadmap" data-lang="hu">Ütemterv</a>
+      </li>
+      <li>
+        <a href="#join" data-lang="en">Join</a>
+        <a href="#join" data-lang="hu">Csatlakozz</a>
+      </li>
+    </ul>
+    <div class="lang-switch">
+      <button onclick="setLang('en')" class="active" id="btn-en">EN</button>
+      <span class="sep">|</span>
+      <button onclick="setLang('hu')" id="btn-hu">HU</button>
+    </div>
+  </div>
 </nav>
 
+<!-- ═══════════════════════════════════════ -->
 <!-- HERO -->
+<!-- ═══════════════════════════════════════ -->
 <header class="hero">
-  <div class="hero-badge">European Policy Initiative</div>
-  <h1>What if your screen time had a <em>nutrition label?</em></h1>
-  <p class="hero-sub">A proposal for mandatory, standardized, user-facing behavioral transparency APIs for every algorithmic service operating in the EU.</p>
-  <div class="hero-cta">
-    <a href="#proposal" class="btn btn-primary">Read the proposal ↓</a>
-    <a href="#join" class="btn btn-outline">Join the initiative</a>
+  <div class="hero-badge">
+    <span data-lang="en">European Policy Initiative</span>
+    <span data-lang="hu">Európai szakpolitikai kezdeményezés</span>
   </div>
+
+  <h1 data-lang="en">What if your screen time had a <em>nutrition label?</em></h1>
+  <h1 data-lang="hu">Mi lenne, ha a képernyőidődnek lenne <em>tápértékcímkéje?</em></h1>
+
+  <p class="hero-sub" data-lang="en">A proposal for mandatory, standardized, user-facing behavioral transparency APIs for every algorithmic service operating in the EU.</p>
+  <p class="hero-sub" data-lang="hu">Javaslat kötelező, szabványosított, felhasználó-oldali viselkedési átláthatósági API-k bevezetésére minden, az EU-ban működő algoritmikus szolgáltatás számára.</p>
+
+  <div class="hero-cta">
+    <a href="#proposal" class="btn btn-primary" data-lang="en">Read the proposal ↓</a>
+    <a href="#proposal" class="btn btn-primary" data-lang="hu">A javaslat ↓</a>
+    <a href="#join" class="btn btn-outline" data-lang="en">Join the initiative</a>
+    <a href="#join" class="btn btn-outline" data-lang="hu">Csatlakozz</a>
+  </div>
+
   <div class="scroll-hint">
     <div class="arrow"></div>
-    Scroll to explore
+    <span data-lang="en">Scroll to explore</span>
+    <span data-lang="hu">Görgess lejjebb</span>
   </div>
 </header>
 
+<!-- ═══════════════════════════════════════ -->
 <!-- PROBLEM: THE ANALOGY -->
+<!-- ═══════════════════════════════════════ -->
 <section class="analogy-section" id="problem">
   <div class="container">
-    <div class="section-label fade-in">01 — The Problem</div>
-    <h2 class="section-title fade-in" style="color: var(--text-inv);">We regulate every product that enters your body. <br>Except the one that enters your mind.</h2>
+    <div class="section-label fade-in">
+      <span data-lang="en">01 — The Problem</span>
+      <span data-lang="hu">01 — A probléma</span>
+    </div>
+
+    <h2 class="section-title fade-in" style="color: var(--text-inv);">
+      <span data-lang="en">We regulate every product that enters your body. <br>Except the one that enters your mind.</span>
+      <span data-lang="hu">Minden terméket szabályozunk, ami a testedbe kerül. <br>Kivéve azt, amelyik az elmédbe.</span>
+    </h2>
+
     <p class="fade-in" style="color: rgba(247,245,240,0.6); max-width: 600px; margin-bottom: 1rem; line-height: 1.7;">
-      The EU mandates transparency for food, vehicles, cigarettes, and cosmetics. But algorithmic services that shape the information diet of 450 million Europeans — including children — operate with no comparable disclosure to users.
+      <span data-lang="en">The EU mandates transparency for food, vehicles, cigarettes, and cosmetics. But algorithmic services that shape the information diet of 450 million Europeans — including children — operate with no comparable disclosure to users.</span>
+      <span data-lang="hu">Az EU előírja az átláthatóságot élelmiszerek, járművek, cigaretták és kozmetikumok esetében. De az algoritmikus szolgáltatások, amelyek 450 millió európai — köztük gyermekek — információs étrendjét alakítják, semmilyen hasonló tájékoztatást nem nyújtanak a felhasználóknak.</span>
     </p>
 
     <div class="analogy-grid">
       <div class="analogy-card fade-in">
         <span class="icon">🍎</span>
         <span class="regulation">Regulation (EU) 1169/2011</span>
-        <h3>Food</h3>
-        <p>Every calorie, every milligram of sodium, every allergen — printed on the packaging by law. Down to the microgram.</p>
+        <h3 data-lang="en">Food</h3>
+        <h3 data-lang="hu">Élelmiszer</h3>
+        <p data-lang="en">Every calorie, every milligram of sodium, every allergen — printed on the packaging by law. Down to the microgram.</p>
+        <p data-lang="hu">Minden kalória, minden milligramm nátrium, minden allergén — jogszabály szerint a csomagoláson feltüntetve. Mikrogramm pontossággal.</p>
       </div>
       <div class="analogy-card fade-in">
         <span class="icon">🚗</span>
         <span class="regulation">Regulation (EU) 2019/2144</span>
-        <h3>Vehicles</h3>
-        <p>Crash test ratings, emission data, material safety standards. You cannot sell a car in the EU that doesn't meet hundreds of transparent specifications.</p>
+        <h3 data-lang="en">Vehicles</h3>
+        <h3 data-lang="hu">Járművek</h3>
+        <p data-lang="en">Crash test ratings, emission data, material safety standards. You cannot sell a car in the EU that doesn't meet hundreds of transparent specifications.</p>
+        <p data-lang="hu">Törésteszt-értékelések, kibocsátási adatok, anyagbiztonsági szabványok. Nem lehet autót eladni az EU-ban, amely nem felel meg több száz átlátható előírásnak.</p>
       </div>
       <div class="analogy-card fade-in">
         <span class="icon">🚬</span>
         <span class="regulation">Directive 2014/40/EU</span>
-        <h3>Tobacco</h3>
-        <p>Milligrams of tar, nicotine, and carbon monoxide. Health warnings covering 65% of the package. Every side effect, printed on the box.</p>
+        <h3 data-lang="en">Tobacco</h3>
+        <h3 data-lang="hu">Dohánytermékek</h3>
+        <p data-lang="en">Milligrams of tar, nicotine, and carbon monoxide. Health warnings covering 65% of the package. Every side effect, printed on the box.</p>
+        <p data-lang="hu">Milligrammok kátránya, nikotinja és szén-monoxidja. Az egészségügyi figyelmeztetések a csomagolás 65%-át fedik le. Minden mellékhatás, a dobozon feltüntetve.</p>
       </div>
       <div class="analogy-card fade-in">
         <span class="icon">🧴</span>
         <span class="regulation">Regulation (EC) 1223/2009</span>
-        <h3>Cosmetics</h3>
-        <p>Full ingredient listing in descending order. Chemical composition scrutinized. Safety assessments mandatory before any product reaches a shelf.</p>
+        <h3 data-lang="en">Cosmetics</h3>
+        <h3 data-lang="hu">Kozmetikumok</h3>
+        <p data-lang="en">Full ingredient listing in descending order. Chemical composition scrutinized. Safety assessments mandatory before any product reaches a shelf.</p>
+        <p data-lang="hu">Teljes összetevő-lista csökkenő sorrendben. A kémiai összetételt ellenőrzik. A biztonsági értékelés kötelező, mielőtt bármilyen termék a polcra kerülne.</p>
       </div>
       <div class="analogy-card highlight fade-in">
         <span class="icon">📱</span>
         <span class="regulation">??? — No equivalent</span>
-        <h3>Algorithmic Services</h3>
-        <p>A service that shapes your beliefs, purchasing decisions, political views, and your children's mental health. No user-facing disclosure of what it does to you.</p>
+        <h3 data-lang="en">Algorithmic Services</h3>
+        <h3 data-lang="hu">Algoritmikus szolgáltatások</h3>
+        <p data-lang="en">A service that shapes your beliefs, purchasing decisions, political views, and your children's mental health. No user-facing disclosure of what it does to you.</p>
+        <p data-lang="hu">Egy szolgáltatás, amely formálja a meggyőződéseidet, vásárlási döntéseidet, politikai nézeteidet és gyermekeid mentális egészségét. Semmilyen felhasználói tájékoztatás arról, mit tesz veled.</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════ -->
 <!-- PROPOSAL: THE API STANDARD -->
+<!-- ═══════════════════════════════════════ -->
 <section class="api-section" id="proposal">
   <div class="container">
-    <div class="section-label fade-in">02 — The Proposal</div>
-    <h2 class="section-title fade-in">Don't ban anything.<br>Just turn the lights on.</h2>
+    <div class="section-label fade-in">
+      <span data-lang="en">02 — The Proposal</span>
+      <span data-lang="hu">02 — A javaslat</span>
+    </div>
+
+    <h2 class="section-title fade-in">
+      <span data-lang="en">Don't ban anything.<br>Just turn the lights on.</span>
+      <span data-lang="hu">Ne tiltsunk semmit.<br>Csak kapcsoljuk fel a villanyt.</span>
+    </h2>
+
     <p class="fade-in" style="color: var(--muted); max-width: 600px; line-height: 1.8;">
-      Any service operating in the EU that uses algorithmic content recommendation must expose — per user, via a standardized REST API — what content was served, what was sponsored, what behavioral signals were used for targeting, and what revenue was generated from that user's activity.
+      <span data-lang="en">Any service operating in the EU that uses algorithmic content recommendation must expose — per user, via a standardized REST API — what content was served, what was sponsored, what behavioral signals were used for targeting, and what revenue was generated from that user's activity.</span>
+      <span data-lang="hu">Minden, az EU-ban működő, algoritmikus tartalomajánlást használó szolgáltatásnak kötelezően elérhetővé kell tennie — felhasználónként, szabványosított REST API-n keresztül — milyen tartalmakat szolgáltattak, melyek voltak szponzoráltak, milyen viselkedési jeleket használtak a célzáshoz, és mennyi bevételt termeltek az adott felhasználó tevékenységéből.</span>
     </p>
 
     <!-- Nutrition Label Visual -->
     <div class="label-visual fade-in">
-      <h3>Digital Nutrition Facts</h3>
-      <div class="label-sub">Weekly Report — User #EU-28491 — Week of 10 Mar 2026</div>
+      <h3 data-lang="en">Digital Nutrition Facts</h3>
+      <h3 data-lang="hu">Digitális tápérték</h3>
+
+      <div class="label-sub" data-lang="en">Weekly Report — User #EU-28491 — Week of 10 Mar 2026</div>
+      <div class="label-sub" data-lang="hu">Heti jelentés — Felhasználó #EU-28491 — 2026. márc. 10. hete</div>
+
       <div class="label-row bold">
-        <span>Total Screen Time</span>
+        <span data-lang="en">Total Screen Time</span>
+        <span data-lang="hu">Teljes képernyőidő</span>
         <span class="val">14h 22min</span>
       </div>
       <div class="label-row">
-        <span class="indent">Algorithmic Feed</span>
+        <span class="indent" data-lang="en">Algorithmic Feed</span>
+        <span class="indent" data-lang="hu">Algoritmikus hírfolyam</span>
         <span class="val">9h 48min</span>
       </div>
       <div class="label-row">
-        <span class="indent">Self-Directed Browsing</span>
+        <span class="indent" data-lang="en">Self-Directed Browsing</span>
+        <span class="indent" data-lang="hu">Saját böngészés</span>
         <span class="val">4h 34min</span>
       </div>
       <div class="label-row bold">
-        <span>Advertising Revenue Generated</span>
+        <span data-lang="en">Advertising Revenue Generated</span>
+        <span data-lang="hu">Hirdetési bevétel</span>
         <span class="val">€1.84</span>
       </div>
       <div class="label-row">
-        <span class="indent">Sponsored Content Served</span>
-        <span class="val warn">247 items</span>
+        <span class="indent" data-lang="en">Sponsored Content Served</span>
+        <span class="indent" data-lang="hu">Szponzorált tartalom</span>
+        <span class="val warn">247</span>
       </div>
       <div class="label-row">
-        <span class="indent">Purchase Decisions Influenced</span>
+        <span class="indent" data-lang="en">Purchase Decisions Influenced</span>
+        <span class="indent" data-lang="hu">Befolyásolt vásárlási döntés</span>
         <span class="val warn">4</span>
       </div>
       <div class="label-row">
-        <span class="indent">Cheaper Alternatives Available</span>
-        <span class="val warn">3 of 4</span>
+        <span class="indent" data-lang="en">Cheaper Alternatives Available</span>
+        <span class="indent" data-lang="hu">Elérhető olcsóbb alternatíva</span>
+        <span class="val warn">3 / 4</span>
       </div>
       <div class="label-row bold">
-        <span>Behavioral Signals Collected</span>
+        <span data-lang="en">Behavioral Signals Collected</span>
+        <span data-lang="hu">Gyűjtött viselkedési jelek</span>
         <span class="val">1,842</span>
       </div>
       <div class="label-row">
-        <span class="indent">Scroll Speed / Dwell Time</span>
-        <span class="val">614</span>
-      </div>
-      <div class="label-row">
-        <span class="indent">Engagement Predictions Used</span>
+        <span class="indent" data-lang="en">Engagement Predictions Used</span>
+        <span class="indent" data-lang="hu">Elköteleződési predikciók</span>
         <span class="val">389</span>
       </div>
       <div class="label-row">
-        <span class="indent">Preference Drift Events</span>
+        <span class="indent" data-lang="en">Preference Drift Events</span>
+        <span class="indent" data-lang="hu">Preferencia-eltolódás</span>
         <span class="val warn">12</span>
       </div>
       <div class="label-row bold">
-        <span>Content Concentration Index</span>
+        <span data-lang="en">Content Concentration Index</span>
+        <span data-lang="hu">Tartalom-koncentráció index</span>
         <span class="val warn">0.73 / 1.0</span>
       </div>
       <div class="label-footer">
-        * Preference Drift: measurable shift in your content engagement patterns not initiated by explicit user action.<br>
-        * Concentration Index: 1.0 = maximum filter bubble. Values above 0.6 indicate significant algorithmic narrowing.
+        <span data-lang="en">
+          * Preference Drift: measurable shift in content engagement not initiated by explicit user action.<br>
+          * Concentration Index: 1.0 = maximum filter bubble. Values above 0.6 indicate significant algorithmic narrowing.
+        </span>
+        <span data-lang="hu">
+          * Preferencia-eltolódás: mérhető elmozdulás a tartalomfogyasztásban, amelyet nem a felhasználó kezdeményezett.<br>
+          * Koncentráció-index: 1.0 = maximális szűrőbuborék. A 0.6 feletti értékek jelentős algoritmikus szűkítést jeleznek.
+        </span>
       </div>
     </div>
 
-    <!-- API Schema -->
+    <!-- API Schema — same in both languages -->
     <div class="api-endpoint-demo fade-in">
       <pre>
 <span class="comment">// GET /api/v1/transparency/{user_id}/weekly</span>
@@ -742,155 +745,148 @@ footer .f-right a:hover { color: var(--text); }
   </div>
 </section>
 
-<!-- EVIDENCE / DATA -->
-<section id="evidence">
-  <div class="container">
-    <div class="section-label fade-in">03 — Evidence</div>
-    <h2 class="section-title fade-in">The numbers behind the opacity</h2>
-
-    <div class="dataviz-row">
-      <div class="stat-card fade-in">
-        <div class="big-num">€97<span>bn</span></div>
-        <h4>EU Digital Advertising Market (2025)</h4>
-        <p>Revenue extracted from European attention, with no per-user transparency about how that value was generated.</p>
-        <div class="source">Source: IAB Europe / Statista</div>
-      </div>
-      <div class="stat-card fade-in">
-        <div class="big-num">68<span>%</span></div>
-        <h4>EU Citizens Concerned About Algorithmic Influence</h4>
-        <p>Of Europeans surveyed say they are worried about how online platforms use algorithms to influence what they see.</p>
-        <div class="source">Source: Eurobarometer 2024</div>
-      </div>
-      <div class="stat-card fade-in">
-        <div class="big-num">0</div>
-        <h4>User-Facing Transparency APIs Required by Law</h4>
-        <p>The DSA requires platform disclosure to regulators and researchers. Not to you. Zero mandatory per-user behavioral data endpoints exist.</p>
-        <div class="source">Source: DSA Art. 40 Analysis</div>
-      </div>
-      <div class="stat-card fade-in">
-        <div class="big-num">93<span>%</span></div>
-        <h4>Of EU Minors Use Social Media</h4>
-        <p>Children and adolescents are the most algorithmically influenced demographic, with the least capacity to understand the manipulation.</p>
-        <div class="source">Source: EU Kids Online 2024</div>
-      </div>
-    </div>
-
-    <div class="bar-chart fade-in">
-      <h4>EU Consumer Protection Transparency — By Sector</h4>
-      <p class="chart-subtitle">Mandatory per-unit / per-user disclosure requirements (illustrative comparison)</p>
-
-      <div class="bar-row">
-        <span class="bar-label">Food & Beverages</span>
-        <div class="bar-track"><div class="bar-fill eu" style="width:95%">95%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Pharmaceuticals</span>
-        <div class="bar-track"><div class="bar-fill eu" style="width:98%">98%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Motor Vehicles</span>
-        <div class="bar-track"><div class="bar-fill eu" style="width:92%">92%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Financial Services</span>
-        <div class="bar-track"><div class="bar-fill gold" style="width:85%">85%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Cosmetics</span>
-        <div class="bar-track"><div class="bar-fill gold" style="width:80%">80%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Tobacco</span>
-        <div class="bar-track"><div class="bar-fill gold" style="width:88%">88%</div></div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Algorithmic Services</span>
-        <div class="bar-track"><div class="bar-fill" style="width:8%">8%</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ═══════════════════════════════════════ -->
 <!-- POLICY LANDSCAPE -->
-<section style="background: var(--card); border-top: 1px solid var(--border);">
+<!-- ═══════════════════════════════════════ -->
+<section id="landscape" style="background: var(--card); border-top: 1px solid var(--border);">
   <div class="container">
-    <div class="section-label fade-in">04 — Policy Landscape</div>
-    <h2 class="section-title fade-in">Where this fits in EU law</h2>
+    <div class="section-label fade-in">
+      <span data-lang="en">03 — Policy Landscape</span>
+      <span data-lang="hu">03 — Szabályozási környezet</span>
+    </div>
+
+    <h2 class="section-title fade-in">
+      <span data-lang="en">Where this fits in EU law</span>
+      <span data-lang="hu">Hol helyezkedik el az EU jogrendszerében</span>
+    </h2>
+
     <p class="fade-in" style="color: var(--muted); max-width: 600px; line-height: 1.8; margin-bottom: 2rem;">
-      The Digital Nutrition Label is not a new regulatory framework. It is the logical next step in an existing trajectory — extending the principle of "tell the regulator" to "tell the user."
+      <span data-lang="en">The Digital Nutrition Label is not a new regulatory framework. It is the logical next step in an existing trajectory — extending the principle of "tell the regulator" to "tell the user."</span>
+      <span data-lang="hu">A Digitális Tápértékcímke nem egy új szabályozási keretrendszer. A meglévő fejlődési pálya logikus következő lépése — a „tájékoztasd a szabályozót" elvének kiterjesztése a „tájékoztasd a felhasználót" elvre.</span>
     </p>
 
-    <div class="analogy-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
-        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
-        <h3 style="color: var(--text);">GDPR (2018)</h3>
-        <p style="color: var(--muted);">Established the right to data access and portability. But doesn't require platforms to show you what their algorithms <em>do</em> with your data.</p>
+    <div class="policy-grid">
+      <div class="policy-card fade-in">
+        <div class="p-status active">
+          <span data-lang="en">In Force</span>
+          <span data-lang="hu">Hatályban</span>
+        </div>
+        <h4>GDPR (2018)</h4>
+        <p data-lang="en">Established the right to data access and portability. But doesn't require platforms to show you what their algorithms <em>do</em> with your data.</p>
+        <p data-lang="hu">Megteremtette az adathozzáférés és adathordozhatóság jogát. De nem követeli meg a platformoktól, hogy megmutassák, mit <em>csinálnak</em> az algoritmusaik az adataiddal.</p>
       </div>
-      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
-        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
-        <h3 style="color: var(--text);">DSA (2024)</h3>
-        <p style="color: var(--muted);">Requires algorithmic transparency to regulators and vetted researchers. Transparency Database tracks content moderation. But no per-user behavioral API.</p>
+      <div class="policy-card fade-in">
+        <div class="p-status active">
+          <span data-lang="en">In Force</span>
+          <span data-lang="hu">Hatályban</span>
+        </div>
+        <h4>DSA (2024)</h4>
+        <p data-lang="en">Requires algorithmic transparency to regulators and vetted researchers. But no per-user behavioral API.</p>
+        <p data-lang="hu">Algoritmikus átláthatóságot ír elő a szabályozók és ellenőrzött kutatók számára. De nincs felhasználónkénti viselkedési API.</p>
       </div>
-      <div class="analogy-card fade-in" style="border-color: var(--border); color: var(--text);">
-        <span class="regulation" style="color: var(--eu-blue);">In Force</span>
-        <h3 style="color: var(--text);">AI Act (2024)</h3>
-        <p style="color: var(--muted);">Risk-based regulation of AI systems. Transparency obligations for high-risk systems. But social media recommenders are not classified as high-risk.</p>
+      <div class="policy-card fade-in">
+        <div class="p-status active">
+          <span data-lang="en">In Force</span>
+          <span data-lang="hu">Hatályban</span>
+        </div>
+        <h4>AI Act (2024)</h4>
+        <p data-lang="en">Risk-based regulation of AI systems. Transparency obligations for high-risk systems. But social media recommenders are not classified as high-risk.</p>
+        <p data-lang="hu">Kockázatalapú AI-szabályozás. Átláthatósági kötelezettségek a magas kockázatú rendszerek számára. De a közösségi média ajánlórendszerei nem minősülnek magas kockázatúnak.</p>
       </div>
-      <div class="analogy-card fade-in" style="border-color: var(--accent); color: var(--text); background: rgba(214,64,0,0.04);">
-        <span class="regulation" style="color: var(--accent);">Expected Q4 2026</span>
-        <h3 style="color: var(--text);">Digital Fairness Act</h3>
-        <p style="color: var(--muted);">Will address dark patterns, addictive design, and unfair personalization. The perfect legislative vehicle for a mandatory behavioral transparency standard.</p>
+      <div class="policy-card fade-in">
+        <div class="p-status upcoming">
+          <span data-lang="en">Expected Q4 2026</span>
+          <span data-lang="hu">Várható: 2026 Q4</span>
+        </div>
+        <h4>Digital Fairness Act</h4>
+        <p data-lang="en">Will address dark patterns, addictive design, and unfair personalization. The perfect legislative vehicle for a mandatory behavioral transparency standard.</p>
+        <p data-lang="hu">A dark pattern-eket, addiktív dizájnt és tisztességtelen személyre szabást szabályozza majd. Tökéletes jogalkotási eszköz a kötelező viselkedési átláthatósági szabvány számára.</p>
       </div>
-      <div class="analogy-card fade-in" style="border-color: var(--accent); border-style: dashed; color: var(--text); background: rgba(214,64,0,0.06);">
-        <span class="regulation" style="color: var(--accent);">Proposed</span>
-        <h3 style="color: var(--accent);">Digital Nutrition Label</h3>
-        <p style="color: var(--muted);">A standardized, mandatory, per-user behavioral transparency API. The missing piece that connects regulation to citizen empowerment.</p>
+      <div class="policy-card proposed fade-in">
+        <div class="p-status upcoming">
+          <span data-lang="en">Proposed</span>
+          <span data-lang="hu">Javasolt</span>
+        </div>
+        <h4>Digital Nutrition Label</h4>
+        <p data-lang="en">A standardized, mandatory, per-user behavioral transparency API. The missing piece that connects regulation to citizen empowerment.</p>
+        <p data-lang="hu">Szabványosított, kötelező, felhasználónkénti viselkedési átláthatósági API. A hiányzó elem, amely összeköti a szabályozást az állampolgári felhatalmazással.</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════ -->
 <!-- ROADMAP -->
-<section class="timeline-section" id="roadmap">
+<!-- ═══════════════════════════════════════ -->
+<section id="roadmap">
   <div class="container">
-    <div class="section-label fade-in">05 — Roadmap</div>
-    <h2 class="section-title fade-in">How we get there</h2>
+    <div class="section-label fade-in">
+      <span data-lang="en">04 — Roadmap</span>
+      <span data-lang="hu">04 — Ütemterv</span>
+    </div>
+
+    <h2 class="section-title fade-in">
+      <span data-lang="en">How we get there</span>
+      <span data-lang="hu">Hogyan jutunk el odáig</span>
+    </h2>
 
     <div class="timeline">
       <div class="timeline-item active fade-in">
-        <div class="t-date">Q1 2026 — Now</div>
-        <h3>Initiative Launch & Coalition Building</h3>
-        <p>Publish the concept. Connect with academic partners (HCI labs, algorithmic auditing researchers), digital rights NGOs (EDRi, AlgorithmWatch), and consumer protection bodies (BEUC). Build the founding consortium.</p>
-      </div>
-      <div class="timeline-item fade-in">
-        <div class="t-date">Q2 2026</div>
-        <h3>Policy Paper & Standard Draft</h3>
-        <p>Produce a formal policy brief proposing the API schema standard. Present at relevant EP committee hearings. Target the Digital Fairness Act preparation process.</p>
+        <div class="t-date">Q2 2026 —
+          <span data-lang="en">Now</span>
+          <span data-lang="hu">Most</span>
+        </div>
+        <h3 data-lang="en">Initiative Launch & Coalition Building</h3>
+        <h3 data-lang="hu">Kezdeményezés indítása és koalícióépítés</h3>
+        <p data-lang="en">Publish the concept. Connect with academic partners, digital rights NGOs, and consumer protection bodies. Build the founding consortium.</p>
+        <p data-lang="hu">A koncepció publikálása. Kapcsolatfelvétel akadémiai partnerekkel, digitális jogvédő szervezetekkel és fogyasztóvédelmi testületekkel. Az alapító konzorcium felépítése.</p>
       </div>
       <div class="timeline-item fade-in">
         <div class="t-date">Q3 2026</div>
-        <h3>EU Funding Application</h3>
-        <p>Submit consortium proposal under Horizon Europe or Digital Europe Programme. Parallel applications to national digital rights funding (e.g., Luminate, Adessium, Schöpflin Foundation).</p>
+        <h3 data-lang="en">Policy Paper & Standard Draft</h3>
+        <h3 data-lang="hu">Szakpolitikai tanulmány és szabványtervezet</h3>
+        <p data-lang="en">Produce a formal policy brief proposing the API schema standard. Present at relevant EP committee hearings. Target the Digital Fairness Act preparation process.</p>
+        <p data-lang="hu">Formális szakpolitikai összefoglaló készítése az API-séma szabványról. Prezentáció az EP illetékes bizottsági meghallgatásain. A Digital Fairness Act előkészítési folyamatának megcélzása.</p>
       </div>
       <div class="timeline-item fade-in">
-        <div class="t-date">Q4 2026 – Q2 2027</div>
-        <h3>Prototype & Pilot</h3>
-        <p>Develop the open reference implementation. Pilot with willing platforms or browser-extension based data collection. Produce first "Digital Nutrition Reports" for real users.</p>
+        <div class="t-date">Q3–Q4 2026</div>
+        <h3 data-lang="en">EU Funding Application</h3>
+        <h3 data-lang="hu">EU pályázat benyújtása</h3>
+        <p data-lang="en">Submit consortium proposal under Horizon Europe or Digital Europe Programme. Parallel applications to foundations supporting digital rights.</p>
+        <p data-lang="hu">Konzorciumi pályázat benyújtása a Horizon Europe vagy Digital Europe Programme keretében. Párhuzamos pályázatok digitális jogokat támogató alapítványokhoz.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="t-date">Q1–Q2 2027</div>
+        <h3 data-lang="en">Prototype & Pilot</h3>
+        <h3 data-lang="hu">Prototípus és pilot</h3>
+        <p data-lang="en">Develop the open reference implementation. Pilot with willing platforms or browser-extension based data collection. Produce first "Digital Nutrition Reports" for real users.</p>
+        <p data-lang="hu">A nyílt referencia-implementáció fejlesztése. Pilot együttműködő platformokkal vagy böngészőbővítmény-alapú adatgyűjtéssel. Az első „Digitális Tápérték Jelentések" elkészítése valós felhasználók számára.</p>
       </div>
       <div class="timeline-item fade-in">
         <div class="t-date">2027–2028</div>
-        <h3>Standardization & Adoption</h3>
-        <p>Work with W3C / ETSI / CEN-CENELEC on formal standardization. Push for inclusion in DFA or successor legislation. Build the open-source ecosystem around the standard.</p>
+        <h3 data-lang="en">Standardization & Adoption</h3>
+        <h3 data-lang="hu">Szabványosítás és elfogadás</h3>
+        <p data-lang="en">Work with W3C / ETSI / CEN-CENELEC on formal standardization. Push for inclusion in DFA or successor legislation. Build the open-source ecosystem around the standard.</p>
+        <p data-lang="hu">Együttműködés a W3C / ETSI / CEN-CENELEC testületekkel a formális szabványosítás érdekében. A DFA-ba vagy utódszabályozásba való beépülés szorgalmazása. Nyílt forráskódú ökoszisztéma kiépítése a szabvány körül.</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════ -->
 <!-- ACADEMIC REFERENCES -->
+<!-- ═══════════════════════════════════════ -->
 <section class="refs-section">
   <div class="container">
-    <div class="section-label fade-in">06 — Academic Foundation</div>
-    <h2 class="section-title fade-in">Built on research, not ideology</h2>
+    <div class="section-label fade-in">
+      <span data-lang="en">05 — Academic Foundation</span>
+      <span data-lang="hu">05 — Akadémiai alapok</span>
+    </div>
+
+    <h2 class="section-title fade-in">
+      <span data-lang="en">Built on research, not ideology</span>
+      <span data-lang="hu">Kutatásra épül, nem ideológiára</span>
+    </h2>
 
     <div class="ref-grid">
       <div class="ref-card fade-in">
@@ -939,77 +935,71 @@ footer .f-right a:hover { color: var(--text); }
   </div>
 </section>
 
-<!-- KEY EU BODIES (hidden until real partners confirmed)
-<section>
-  <div class="container">
-    <div class="section-label fade-in">07 — Coalition</div>
-    <h2 class="section-title fade-in">Who needs to be in the room</h2>
-
-    <div class="coalition-grid">
-      <div class="coalition-card fade-in">
-        <div class="c-role">Institutional Partner</div>
-        <h4>ECAT</h4>
-        <p>European Centre for Algorithmic Transparency. The Commission's own scientific body for DSA enforcement. Natural ally for extending transparency to users.</p>
-      </div>
-      <div class="coalition-card fade-in">
-        <div class="c-role">Digital Rights</div>
-        <h4>EDRi / AlgorithmWatch</h4>
-        <p>European Digital Rights network. Already pushing for the Digital Fairness Act to address commercial surveillance. Policy advocacy infrastructure.</p>
-      </div>
-      <div class="coalition-card fade-in">
-        <div class="c-role">Consumer Protection</div>
-        <h4>BEUC</h4>
-        <p>The European Consumer Organisation. Represents 46 consumer organizations across 32 countries. Provides the political weight and lobbying infrastructure.</p>
-      </div>
-      <div class="coalition-card fade-in">
-        <div class="c-role">Academic Research</div>
-        <h4>University Partners</h4>
-        <p>Stanford HCI Lab, Northeastern Auditing Algorithms, TU Berlin, University of Amsterdam. Provide the methodological rigor and evidence base.</p>
-      </div>
-      <div class="coalition-card fade-in">
-        <div class="c-role">Standards Body</div>
-        <h4>W3C / CEN-CENELEC</h4>
-        <p>For formal API schema standardization. The "calorie" equivalent for digital attention needs an agreed-upon measurement framework.</p>
-      </div>
-      <div class="coalition-card open fade-in">
-        <div class="c-role">You?</div>
-        <h4>Open Seats</h4>
-        <p>Civic tech developers, MEPs, child protection organizations, educators, data scientists, concerned parents. This initiative needs diverse voices.</p>
-      </div>
-    </div>
-  </div>
-</section>
--->
-
+<!-- ═══════════════════════════════════════ -->
 <!-- CTA -->
+<!-- ═══════════════════════════════════════ -->
 <section class="cta-section" id="join">
-  <div class="section-label" style="color: var(--eu-gold);">Join the Initiative</div>
-  <h2 class="section-title" style="color: var(--text-inv);">Don't fight the platforms.<br>Just turn the lights on.</h2>
-  <p>We're building a coalition to make algorithmic behavioral transparency a fundamental right for every European citizen.</p>
-  <a href="mailto:hello@digitalnutritionlabel.eu" class="btn btn-primary">Get Involved →</a>
+  <div class="section-label" style="color: var(--eu-gold);">
+    <span data-lang="en">Join the Initiative</span>
+    <span data-lang="hu">Csatlakozz a kezdeményezéshez</span>
+  </div>
+
+  <h2 class="section-title" style="color: var(--text-inv);">
+    <span data-lang="en">Don't fight the platforms.<br>Just turn the lights on.</span>
+    <span data-lang="hu">Ne harcoljunk a platformok ellen.<br>Csak kapcsoljuk fel a villanyt.</span>
+  </h2>
+
+  <p data-lang="en">We're building a coalition to make algorithmic behavioral transparency a fundamental right for every European citizen.</p>
+  <p data-lang="hu">Koalíciót építünk, hogy az algoritmikus viselkedési átláthatóság minden európai polgár alapvető joga legyen.</p>
+
+  <a href="mailto:hello@digitalnutritionlabel.eu" class="btn btn-primary">
+    <span data-lang="en">Get Involved →</span>
+    <span data-lang="hu">Csatlakozom →</span>
+  </a>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="f-left">
     © 2026 Digital Nutrition Label Initiative<br>
-    A public interest technology project
+    <span data-lang="en">A public interest technology project</span>
+    <span data-lang="hu">Közérdekű technológiai projekt</span>
   </div>
   <div class="f-right">
-    <a href="#">Concept Paper (PDF)</a>
-    <a href="#">GitHub</a>
+    <a href="https://github.com/digital-nutrition-label">GitHub</a>
     <a href="#">LinkedIn</a>
-    <a href="#">Contact</a>
+    <a href="mailto:hello@digitalnutritionlabel.eu">
+      <span data-lang="en">Contact</span>
+      <span data-lang="hu">Kapcsolat</span>
+    </a>
   </div>
 </footer>
 
-<!-- SCROLL ANIMATION -->
+<!-- SCRIPTS -->
 <script>
+// Language switcher
+function setLang(lang) {
+  document.body.classList.remove('lang-hu');
+  if (lang === 'hu') document.body.classList.add('lang-hu');
+  document.documentElement.lang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-hu').classList.toggle('active', lang === 'hu');
+  localStorage.setItem('dnl-lang', lang);
+}
+
+// Restore saved language
+const saved = localStorage.getItem('dnl-lang');
+if (saved) setLang(saved);
+
+// Detect Hungarian browser
+if (!saved && navigator.language && navigator.language.startsWith('hu')) {
+  setLang('hu');
+}
+
+// Scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
