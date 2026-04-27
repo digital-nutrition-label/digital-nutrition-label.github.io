@@ -476,6 +476,83 @@ footer .f-right a:hover { color: var(--text); }
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+/* ─── COLLAPSIBLE DETAILS ─── */
+details.api-details {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 4px;
+}
+details.api-details summary {
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  list-style: none;
+}
+details.api-details summary::-webkit-details-marker { display: none; }
+details.api-details summary::before {
+  content: '▶';
+  font-size: 0.7rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+details.api-details[open] summary::before { transform: rotate(90deg); }
+details.api-details .api-details-content {
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.api-note {
+  background: rgba(0, 51, 153, 0.05);
+  border-left: 3px solid var(--eu-blue);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.api-note a { color: var(--eu-blue); font-weight: 500; }
+
+/* ─── KEY POINTS ─── */
+.key-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.key-point {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.key-point .kp-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.key-point .kp-text h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.key-point .kp-text p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 /* ─── CONTEXT SECTION ─── */
 .context-section {
   background: var(--bg);
@@ -779,14 +856,45 @@ footer .f-right a:hover { color: var(--text); }
     </div>
 
     <h2 class="section-title fade-in">
-      <span data-lang="en">Don't ban anything.<br>Just turn the lights on.</span>
-      <span data-lang="hu">Ne tiltsunk semmit.<br>Csak kapcsoljuk fel a villanyt.</span>
+      <span data-lang="en">Don't ban anything.<br>Just turn the lights on — for <em>you</em>.</span>
+      <span data-lang="hu">Ne tiltsunk semmit.<br>Csak kapcsoljuk fel a villanyt — <em>neked</em>.</span>
     </h2>
 
-    <p class="fade-in" style="color: var(--muted); max-width: 600px; line-height: 1.8;">
-      <span data-lang="en">Any service operating in the EU that uses algorithmic content recommendation must expose — per user, via a standardized REST API — what content was served, what was sponsored, what behavioral signals were used for targeting, and what revenue was generated from that user's activity.</span>
-      <span data-lang="hu">Minden, az EU-ban működő, algoritmikus tartalomajánlást használó szolgáltatásnak kötelezően elérhetővé kell tennie — felhasználónként, szabványosított REST API-n keresztül — milyen tartalmakat szolgáltattak, melyek voltak szponzoráltak, milyen viselkedési jeleket használtak a célzáshoz, és mennyi bevételt termeltek az adott felhasználó tevékenységéből.</span>
+    <p class="fade-in" style="color: var(--muted); max-width: 650px; line-height: 1.8;">
+      <span data-lang="en">Every person should have the right to see exactly what an algorithmic platform does with <strong>their own</strong> attention, data, and money. Not aggregate statistics. Not research summaries. <em>Your</em> personal behavioral report — accessible only to <em>you</em>.</span>
+      <span data-lang="hu">Minden embernek joga van pontosan látni, mit tesz egy algoritmikus platform az <strong>ő saját</strong> figyelmével, adataival és pénzével. Nem összesített statisztikákat. Nem kutatási összefoglalókat. A <em>te</em> személyes viselkedési jelentésed — csak <em>neked</em> hozzáférhető.</span>
     </p>
+
+    <!-- Key Points -->
+    <div class="key-points fade-in">
+      <div class="key-point">
+        <div class="kp-icon">👤</div>
+        <div class="kp-text">
+          <h4 data-lang="en">Personal access only</h4>
+          <h4 data-lang="hu">Csak személyes hozzáférés</h4>
+          <p data-lang="en">Only you can access your data. No government official, no regulator sees your personal report. Authorities only verify that platforms provide the data — they never see it.</p>
+          <p data-lang="hu">Csak te férhetsz hozzá az adataidhoz. Egyetlen kormánytisztviselő, egyetlen szabályozó sem látja a személyes jelentésedet. A hatóságok csak azt ellenőrzik, hogy a platformok biztosítják-e az adatokat — soha nem látják azokat.</p>
+        </div>
+      </div>
+      <div class="key-point">
+        <div class="kp-icon">🏢</div>
+        <div class="kp-text">
+          <h4 data-lang="en">Business-friendly transparency</h4>
+          <h4 data-lang="hu">Üzletbarát átláthatóság</h4>
+          <p data-lang="en">This doesn't expose trade secrets or algorithms. It only shows the <em>outcome</em> — what happened to you. Platforms keep their methods; you see your results.</p>
+          <p data-lang="hu">Ez nem fedi fel az üzleti titkokat vagy algoritmusokat. Csak az <em>eredményt</em> mutatja — mi történt veled. A platformok megtartják módszereiket; te látod az eredményeidet.</p>
+        </div>
+      </div>
+      <div class="key-point">
+        <div class="kp-icon">⚖️</div>
+        <div class="kp-text">
+          <h4 data-lang="en">Fair information, not restriction</h4>
+          <h4 data-lang="hu">Tisztességes tájékoztatás, nem korlátozás</h4>
+          <p data-lang="en">No bans, no content restrictions, no interference with business models. Just mandatory disclosure — the same principle the EU applies to food, medicine, and finance.</p>
+          <p data-lang="hu">Nincs tiltás, nincs tartalomkorlátozás, nincs beavatkozás az üzleti modellekbe. Csak kötelező tájékoztatás — ugyanaz az elv, amit az EU az élelmiszerekre, gyógyszerekre és pénzügyekre alkalmaz.</p>
+        </div>
+      </div>
+    </div>
 
     <!-- Nutrition Label Visual -->
     <div class="label-visual fade-in">
@@ -863,9 +971,31 @@ footer .f-right a:hover { color: var(--text); }
       </div>
     </div>
 
-    <!-- API Schema — same in both languages -->
-    <div class="api-endpoint-demo fade-in">
-      <pre>
+    <!-- Machine-readable format explanation -->
+    <p class="fade-in" style="color: var(--muted); max-width: 650px; line-height: 1.8; margin-top: 2.5rem;">
+      <span data-lang="en">The visual label above is one way to present this information. But platforms must also provide the <strong>raw data</strong> in a standardized, machine-readable format — so you (or apps you trust) can process, compare, and analyze it yourself.</span>
+      <span data-lang="hu">A fenti vizuális címke az információ egy megjelenítési módja. De a platformoknak a <strong>nyers adatokat</strong> is biztosítaniuk kell szabványosított, géppel olvasható formátumban — így te (vagy az alkalmazások, amelyekben megbízol) feldolgozhassák, összehasonlíthassák és elemezzék azokat.</span>
+    </p>
+
+    <!-- Collapsible API Schema -->
+    <details class="api-details fade-in">
+      <summary>
+        <span data-lang="en">Technical: View proposed data format (REST API)</span>
+        <span data-lang="hu">Technikai: Javasolt adatformátum megtekintése (REST API)</span>
+      </summary>
+      <div class="api-details-content">
+        <div class="api-note">
+          <span data-lang="en">
+            <strong>For developers and policymakers:</strong> We propose a REST API standard using JSON format, similar to how financial services provide account data under PSD2.
+            This is a draft — <a href="https://github.com/digital-nutrition-label/digital-nutrition-label.github.io/blob/main/STANDARD-PROPOSAL.md" target="_blank">view the full specification draft</a> and join the discussion on GitHub.
+          </span>
+          <span data-lang="hu">
+            <strong>Fejlesztőknek és döntéshozóknak:</strong> REST API szabványt javasolunk JSON formátumban, hasonlóan ahhoz, ahogy a pénzügyi szolgáltatások biztosítják a számlaadatokat a PSD2 alapján.
+            Ez egy tervezet — <a href="https://github.com/digital-nutrition-label/digital-nutrition-label.github.io/blob/main/STANDARD-PROPOSAL.md" target="_blank">tekintsd meg a teljes specifikációs tervezetet</a> és csatlakozz a vitához a GitHubon.
+          </span>
+        </div>
+        <div class="api-endpoint-demo">
+          <pre>
 <span class="comment">// GET /api/v1/transparency/{user_id}/weekly</span>
 
 {
@@ -888,8 +1018,10 @@ footer .f-right a:hover { color: var(--text); }
     <span class="key">"concentration_index"</span>:  <span class="num">0.73</span>
   }
 }
-      </pre>
-    </div>
+          </pre>
+        </div>
+      </div>
+    </details>
   </div>
 </section>
 
