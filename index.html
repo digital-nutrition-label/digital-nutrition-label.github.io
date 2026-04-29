@@ -116,6 +116,16 @@ nav ul a:hover { color: var(--text); }
   max-width: 1200px; margin: 0 auto;
   position: relative;
 }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-content {
+  display: flex;
+  flex-direction: column;
+}
 .hero-badge {
   display: inline-flex; align-items: center; gap: 0.5rem;
   background: var(--eu-blue);
@@ -133,23 +143,35 @@ nav ul a:hover { color: var(--text); }
 .hero-badge::before { content: '★'; font-size: 0.65rem; }
 .hero h1 {
   font-family: var(--serif);
-  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  max-width: 900px;
   margin-bottom: 1.5rem;
 }
 .hero h1 em { font-style: italic; color: var(--accent); }
 .hero-sub {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 300;
-  max-width: 600px;
   color: var(--muted);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   line-height: 1.7;
 }
 .hero-cta {
   display: flex; gap: 1rem; flex-wrap: wrap;
+}
+/* Hero label visual */
+.hero-label-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 420px;
+}
+.hero-label-wrapper .label-visual {
+  transform: scale(1.1);
+  transform-origin: top center;
+  margin-top: 0;
+  max-width: none;
+  width: 100%;
+  padding: 2rem;
 }
 .btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -601,6 +623,24 @@ details.api-details .api-details-content {
 }
 
 /* ─── RESPONSIVE ─── */
+@media(max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .hero-grid .hero-content { order: 1; }
+  .hero-grid .hero-label-wrapper {
+    order: 2;
+    height: 320px;
+    max-width: 100%;
+  }
+  .hero-label-wrapper .label-visual {
+    transform: scale(1);
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); }
+}
 @media(max-width: 768px) {
   nav ul { display: none; }
   .hero { padding: 7rem 1.5rem 4rem; }
@@ -609,9 +649,16 @@ details.api-details .api-details-content {
   .ref-grid { grid-template-columns: 1fr; }
   .policy-grid { grid-template-columns: 1fr; }
   .context-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-label-wrapper { height: 280px; }
 }
 @media(max-width: 480px) {
   .analogy-grid { grid-template-columns: 1fr; }
+  .hero-label-wrapper { height: 240px; }
+  .hero-label-wrapper .label-visual {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+  .hero-label-wrapper .label-visual h3 { font-size: 1.4rem; }
 }
 </style>
 </head>
@@ -655,22 +702,42 @@ details.api-details .api-details-content {
 <!-- HERO -->
 <!-- ═══════════════════════════════════════ -->
 <header class="hero">
-  <div class="hero-badge">
-    <span data-lang="en">European Policy Initiative</span>
-    <span data-lang="hu">Európai szakpolitikai kezdeményezés</span>
-  </div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span data-lang="en">European Policy Initiative</span>
+        <span data-lang="hu">Európai szakpolitikai kezdeményezés</span>
+      </div>
 
-  <h1 data-lang="en">What if your social media consumption had a <em>nutrition label?</em></h1>
-  <h1 data-lang="hu">Mi lenne, ha a közösségi média fogyasztásodnak lenne <em>tápértékcímkéje?</em></h1>
+      <h1 data-lang="en">What if your social media consumption had a <em>nutrition label?</em></h1>
+      <h1 data-lang="hu">Mi lenne, ha a közösségi média fogyasztásodnak lenne <em>tápértékcímkéje?</em></h1>
 
-  <p class="hero-sub" data-lang="en">A proposal for mandatory behavioral transparency for every algorithmic feed platform operating in the EU — Facebook, Instagram, TikTok, YouTube, LinkedIn, X, and others.</p>
-  <p class="hero-sub" data-lang="hu">Javaslat kötelező viselkedési átláthatóságra minden, az EU-ban működő algoritmikus hírfolyam-platform számára — Facebook, Instagram, TikTok, YouTube, LinkedIn, X és mások.</p>
+      <p class="hero-sub" data-lang="en">A proposal for mandatory behavioral transparency for every algorithmic feed platform operating in the EU.</p>
+      <p class="hero-sub" data-lang="hu">Javaslat kötelező viselkedési átláthatóságra minden, az EU-ban működő algoritmikus hírfolyam-platform számára.</p>
 
-  <div class="hero-cta">
-    <a href="#proposal" class="btn btn-primary" data-lang="en">Read the proposal ↓</a>
-    <a href="#proposal" class="btn btn-primary" data-lang="hu">A javaslat ↓</a>
-    <a href="#join" class="btn btn-outline" data-lang="en">Join the initiative</a>
-    <a href="#join" class="btn btn-outline" data-lang="hu">Csatlakozz</a>
+      <div class="hero-cta">
+        <a href="#proposal" class="btn btn-primary" data-lang="en">Read the proposal ↓</a>
+        <a href="#proposal" class="btn btn-primary" data-lang="hu">A javaslat ↓</a>
+        <a href="#join" class="btn btn-outline" data-lang="en">Join the initiative</a>
+        <a href="#join" class="btn btn-outline" data-lang="hu">Csatlakozz</a>
+      </div>
+    </div>
+
+    <div class="hero-label-wrapper">
+      <div class="label-visual">
+        <h3>Digital Nutrition Facts</h3>
+        <div class="label-sub">Weekly Report — User #EU-28491</div>
+        <div class="label-row bold"><span>Total Screen Time</span><span class="val">14h 22min</span></div>
+        <div class="label-row"><span class="indent">Algorithmic Feed</span><span class="val">9h 48min</span></div>
+        <div class="label-row"><span class="indent">Self-Directed</span><span class="val">4h 34min</span></div>
+        <div class="label-row bold"><span>Ad Revenue Generated</span><span class="val">€1.84</span></div>
+        <div class="label-row"><span class="indent">Sponsored Content</span><span class="val warn">247</span></div>
+        <div class="label-row"><span class="indent">Purchases Influenced</span><span class="val warn">4</span></div>
+        <div class="label-row bold"><span>Behavioral Signals</span><span class="val">1,842</span></div>
+        <div class="label-row"><span class="indent">Preference Drift</span><span class="val warn">12</span></div>
+        <div class="label-row bold"><span>Concentration Index</span><span class="val warn">0.73</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="scroll-hint">
